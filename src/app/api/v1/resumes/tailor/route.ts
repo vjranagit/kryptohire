@@ -166,14 +166,6 @@ export async function POST(req: NextRequest) {
     console.error('[TAILOR API] Error stack:', error instanceof Error ? error.stack : 'No stack');
     console.error('[TAILOR API] Error details:', JSON.stringify(error, Object.getOwnPropertyNames(error)));
 
-    // Write error to file for debugging
-    try {
-      const fs = require('fs');
-      fs.appendFileSync('/app/tmp/tailor-errors.log', `\n[${new Date().toISOString()}] ${error instanceof Error ? error.message : 'Unknown error'}\n${error instanceof Error ? error.stack : ''}\n`);
-    } catch (fsError) {
-      console.error('Failed to write error log:', fsError);
-    }
-
     return handleAPIError(error);
   }
 }

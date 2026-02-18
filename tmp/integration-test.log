@@ -1,0 +1,166 @@
+=== Integration Test Started: Wed Feb 18 03:02:38 PM EST 2026 ===
+
+============================================================
+  STEP 1: Pre-flight Checks
+============================================================
+[0;34m[15:02:38][0m Checking if container resumelm-app-dev is running...
+[0;32m✅ Container resumelm-app-dev is running[0m
+NAMES              STATUS          PORTS
+resumelm-app-dev   Up 12 seconds   0.0.0.0:3021->3000/tcp, :::3021->3000/tcp
+[0;34m[15:02:39][0m Checking API connectivity...
+[0;32m✅ API is reachable at http://192.168.1.2:3021/api/v1[0m
+[0;34m[15:02:39][0m Checking recent container logs...
+   - Local:        http://localhost:3000
+   - Network:      http://172.26.0.6:3000
+   - Experiments (use with caution):
+     · turbo
+
+ ✓ Starting...
+ ✓ Ready in 2.3s
+ ELIFECYCLE  Command failed.
+
+> resume-lm@0.1.0 dev /app
+> next dev
+
+   ▲ Next.js 15.1.11
+   - Local:        http://localhost:3000
+   - Network:      http://172.26.0.6:3000
+   - Experiments (use with caution):
+     · turbo
+
+ ✓ Starting...
+ ✓ Ready in 2.3s
+
+============================================================
+  STEP 2: Authentication
+============================================================
+[0;34m[15:02:39][0m Attempting login with admin credentials...
+Login response:
+{"data":{"user":{"id":"e7b0150c-ebe6-4d58-960e-58355728a6cc","email":"admin@admin.com","user_metadata":{"email":"admin@admin.com","email_verified":true,"phone_verified":false,"sub":"e7b0150c-ebe6-4d58-960e-58355728a6cc"}},"session":{"access_token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJlN2IwMTUwYy1lYmU2LTRkNTgtOTYwZS01ODM1NTcyOGE2Y2MiLCJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNzcxNDQ4NTU5LCJpYXQiOjE3NzE0NDQ5NTksImVtYWlsIjoiYWRtaW5AYWRtaW4uY29tIiwicGhvbmUiOiIiLCJhcHBfbWV0YWRhdGEiOnsicHJvdmlkZXIiOiJlbWFpbCIsInByb3ZpZGVycyI6WyJlbWFpbCJdfSwidXNlcl9tZXRhZGF0YSI6eyJlbWFpbCI6ImFkbWluQGFkbWluLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJwaG9uZV92ZXJpZmllZCI6ZmFsc2UsInN1YiI6ImU3YjAxNTBjLWViZTYtNGQ1OC05NjBlLTU4MzU1NzI4YTZjYyJ9LCJyb2xlIjoiYXV0aGVudGljYXRlZCIsImFhbCI6ImFhbDEiLCJhbXIiOlt7Im1ldGhvZCI6InBhc3N3b3JkIiwidGltZXN0YW1wIjoxNzcxNDQ0OTU5fV0sInNlc3Npb25faWQiOiJjYTNiZDMxMy0xMGM2LTQxMjEtOTNiNC03ZmM1NjdkMzRiYmQiLCJpc19hbm9ueW1vdXMiOmZhbHNlfQ.LmtuHTGz2HoVssoeY5jPeS7DUmzwDMDhbP9UxbdL_AQ","refresh_token":"7p3a6wjhz257","expires_at":1771448559,"expires_in":3600},"access_token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJlN2IwMTUwYy1lYmU2LTRkNTgtOTYwZS01ODM1NTcyOGE2Y2MiLCJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNzcxNDQ4NTU5LCJpYXQiOjE3NzE0NDQ5NTksImVtYWlsIjoiYWRtaW5AYWRtaW4uY29tIiwicGhvbmUiOiIiLCJhcHBfbWV0YWRhdGEiOnsicHJvdmlkZXIiOiJlbWFpbCIsInByb3ZpZGVycyI6WyJlbWFpbCJdfSwidXNlcl9tZXRhZGF0YSI6eyJlbWFpbCI6ImFkbWluQGFkbWluLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJwaG9uZV92ZXJpZmllZCI6ZmFsc2UsInN1YiI6ImU3YjAxNTBjLWViZTYtNGQ1OC05NjBlLTU4MzU1NzI4YTZjYyJ9LCJyb2xlIjoiYXV0aGVudGljYXRlZCIsImFhbCI6ImFhbDEiLCJhbXIiOlt7Im1ldGhvZCI6InBhc3N3b3JkIiwidGltZXN0YW1wIjoxNzcxNDQ0OTU5fV0sInNlc3Npb25faWQiOiJjYTNiZDMxMy0xMGM2LTQxMjEtOTNiNC03ZmM1NjdkMzRiYmQiLCJpc19hbm9ueW1vdXMiOmZhbHNlfQ.LmtuHTGz2HoVssoeY5jPeS7DUmzwDMDhbP9UxbdL_AQ","refresh_token":"7p3a6wjhz257"}}
+HTTP_STATUS:200
+TIME_TOTAL:0.183360
+[0;34m[15:02:39][0m Login HTTP Status: 200
+[0;34m[15:02:39][0m Login Time: 0.183360s
+[0;32m✅ Login successful - Token obtained (739 chars)[0m
+[0;34m[15:02:39][0m Verifying token with /auth/me endpoint...
+[0;32m✅ Token verified successfully[0m
+[0;34m[15:02:39][0m Authenticated as: admin@admin.com
+
+============================================================
+  STEP 3: Create Test Base Resume
+============================================================
+[0;34m[15:02:39][0m Creating test base resume...
+Create resume response:
+{"data":{"resume":{"id":"8b7d29ce-95ba-4b38-8714-fa9038d3bde6","user_id":"e7b0150c-ebe6-4d58-960e-58355728a6cc","job_id":null,"is_base_resume":true,"name":"Integration Test Base Resume","first_name":"","last_name":"","email":"","phone_number":"","location":"","website":"","linkedin_url":"","github_url":"","professional_summary":null,"work_experience":[],"education":[],"skills":[],"projects":[],"certifications":[],"section_order":["work_experience","education","skills","projects"],"section_configs":{"skills":{"visible":false},"projects":{"visible":false},"education":{"visible":false},"work_experience":{"visible":false}},"created_at":"2026-02-18T20:02:39.735125+00:00","updated_at":"2026-02-18T20:02:39.735125+00:00","resume_title":null,"target_role":"Integration Test Base Resume","document_settings":{"footer_width":0,"show_ubc_footer":false,"header_name_size":24,"skills_margin_top":0,"document_font_size":10,"projects_margin_top":0,"skills_item_spacing":0,"document_line_height":1.2,"education_margin_top":0,"skills_margin_bottom":2,"experience_margin_top":2,"projects_item_spacing":0,"education_item_spacing":0,"projects_margin_bottom":0,"education_margin_bottom":0,"experience_item_spacing":1,"document_margin_vertical":20,"experience_margin_bottom":0,"skills_margin_horizontal":0,"document_margin_horizontal":28,"header_name_bottom_spacing":16,"projects_margin_horizontal":0,"education_margin_horizontal":0,"experience_margin_horizontal":0},"has_cover_letter":false,"cover_letter":null}}}
+HTTP_STATUS:201
+TIME_TOTAL:0.102434
+[0;34m[15:02:39][0m Create Resume HTTP Status: 201
+[0;34m[15:02:39][0m Create Resume Time: 0.102434s
+[0;32m✅ Base resume created: 8b7d29ce-95ba-4b38-8714-fa9038d3bde6[0m
+
+============================================================
+  STEP 4: Create Test Job
+============================================================
+[0;34m[15:02:39][0m Creating test job...
+Create job response:
+{"data":{"job":{"id":"f90229cd-268d-4289-a249-8a00a29a93df","user_id":"e7b0150c-ebe6-4d58-960e-58355728a6cc","company_name":"Innovation Labs","position_title":"Senior Full Stack Engineer","job_url":null,"description":"We are seeking a talented Senior Full Stack Engineer to join our growing team. The ideal candidate will have strong experience with React, Node.js, and cloud technologies. You will work on building scalable web applications and microservices. Strong problem-solving skills and ability to work in a fast-paced environment are essential.","location":null,"salary_range":null,"keywords":[],"work_location":"remote","employment_type":"full_time","is_active":true,"created_at":"2026-02-18T20:02:39.90974+00:00","updated_at":"2026-02-18T20:02:39.90974+00:00"}}}
+HTTP_STATUS:201
+TIME_TOTAL:0.103223
+[0;34m[15:02:39][0m Create Job HTTP Status: 201
+[0;34m[15:02:39][0m Create Job Time: 0.103223s
+[0;32m✅ Job created: f90229cd-268d-4289-a249-8a00a29a93df[0m
+
+============================================================
+  STEP 5: Test Tailor Endpoint
+============================================================
+[0;34m[15:02:39][0m Starting tailor endpoint test...
+[0;34m[15:02:39][0m Base Resume ID: 8b7d29ce-95ba-4b38-8714-fa9038d3bde6
+[0;34m[15:02:39][0m Job ID: f90229cd-268d-4289-a249-8a00a29a93df
+[0;34m[15:02:39][0m Timeout: 60s
+[0;34m[15:02:39][0m Starting docker log monitoring...
+[0;34m[15:02:40][0m Calling tailor endpoint...
+[0;34m[15:02:45][0m Tailor request completed (exit code: 0)
+[0;34m[15:02:45][0m Total duration: 5s
+
+=== TAILOR RESPONSE ===
+{"error":{"message":"An unexpected error occurred","code":"INTERNAL_SERVER_ERROR","statusCode":500}}
+HTTP_STATUS:500
+TIME_TOTAL:4.405023
+TIME_CONNECT:0.000572
+TIME_STARTTRANSFER:4.404610
+
+[0;34m[15:02:45][0m HTTP Status: 500
+[0;34m[15:02:45][0m Total Time: 4.405023s
+[0;34m[15:02:45][0m Connect Time: 0.000572s
+[0;34m[15:02:45][0m Time to First Byte: 4.404610s
+[0;31m❌ TAILOR ENDPOINT FAILED with status 500[0m
+
+============================================================
+  STEP 6: Docker Log Analysis
+============================================================
+[0;34m[15:02:45][0m Checking docker logs during tailor request...
+[0;34m[15:02:45][0m Captured 142 lines of docker logs
+[0;34m[15:02:45][0m Found 0 error lines
+[0;34m[15:02:45][0m Found 0 tailor-related lines
+
+Last 30 lines of docker logs during tailor:
+     · turbo
+
+ ✓ Starting...
+ ✓ Ready in 2.2s
+ ELIFECYCLE  Command failed.
+
+> resume-lm@0.1.0 dev /app
+> next dev
+
+   ▲ Next.js 15.1.11
+   - Local:        http://localhost:3000
+   - Network:      http://172.26.0.6:3000
+   - Experiments (use with caution):
+     · turbo
+
+ ✓ Starting...
+ ✓ Ready in 2.3s
+ ELIFECYCLE  Command failed.
+
+> resume-lm@0.1.0 dev /app
+> next dev
+
+   ▲ Next.js 15.1.11
+   - Local:        http://localhost:3000
+   - Network:      http://172.26.0.6:3000
+   - Experiments (use with caution):
+     · turbo
+
+ ✓ Starting...
+ ✓ Ready in 2.3s
+[0;34m[15:02:45][0m Checking container error log...
+[0;34m[15:02:45][0m No error log file found in container
+
+============================================================
+  STEP 7: Container Health Check
+============================================================
+[0;34m[15:02:45][0m Checking container resource usage...
+CONTAINER          CPU %     MEM USAGE / LIMIT   MEM %
+resumelm-app-dev   0.00%     232.6MiB / 2GiB     11.36%
+[0;34m[15:02:47][0m Checking container processes...
+OCI runtime exec failed: exec failed: unable to start container process: exec: "ps": executable file not found in $PATH
+
+============================================================
+  SUMMARY
+============================================================
+Test Results:
+  Authentication: ✅ Success
+  Base Resume Creation: ✅ Success (8b7d29ce-95ba-4b38-8714-fa9038d3bde6)
+  Job Creation: ✅ Success (f90229cd-268d-4289-a249-8a00a29a93df)
+  Tailor Endpoint: ❌ FAILED (Status: 500, Duration: 5s)
+
+Log files:
+  Main log: /home/vjrana/work/projects/rts-rating/repos/resume-lm/tmp/integration-test.log
+  Error log: /home/vjrana/work/projects/rts-rating/repos/resume-lm/tmp/integration-test-errors.log
+  Docker logs: /home/vjrana/work/projects/rts-rating/repos/resume-lm/tmp/docker-logs-during-tailor.log
+
+[0;32m✅ Integration test completed at Wed Feb 18 03:02:47 PM EST 2026[0m
+[0;34m[15:02:47][0m Cleaning up base resume: 8b7d29ce-95ba-4b38-8714-fa9038d3bde6
+{"error":{"message":"An unexpected error occurred","code":"INTERNAL_SERVER_ERROR","statusCode":500}}[0;34m[15:02:47][0m Cleaning up job: f90229cd-268d-4289-a249-8a00a29a93df
+{"error":{"message":"Job not found","code":"NOT_FOUND","statusCode":404}}
