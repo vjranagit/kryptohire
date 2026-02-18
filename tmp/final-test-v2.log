@@ -1,0 +1,46 @@
+=======================================
+ResumeLM API - Workflow Test
+=======================================
+
+[0;34mStep 1: Authentication[0m
+[0;32m✓ Logged in successfully[0m
+Token: eyJhbGciOiJIUzI1NiIs...
+
+[0;34mStep 2: Creating Mock Job Posting[0m
+[0;32m✓ Job created[0m
+Job ID: 78ed3543-8d3a-4eb9-a7d3-b9da0d345978
+Company: TechCorp Solutions
+Position: Senior Full-Stack Engineer
+
+[0;34mStep 3: Creating Mock Base Resume[0m
+[0;32m✓ Base resume created[0m
+Resume ID: 1b8a2a29-5d7a-4d9e-9497-8a0011fcc236
+Name: John Doe - Master Resume
+
+[0;34mStep 4: Base Resume Created (Scoring skipped - requires job association)[0m
+Note: Base resumes can only be scored after tailoring to a specific job
+Proceeding to create tailored resume...
+
+[0;34mStep 5: Creating Tailored Resume[0m
+This may take 30-90 seconds (AI processing)...
+[0;32m✓ Tailored resume created[0m
+Tailored Resume ID: null
+
+[0;34mStep 6: Scoring Tailored Resume[0m
+This may take 30-60 seconds...
+[0;32m✓ Tailored resume scored[0m
+Overall Score: N/A/100
+
+[1;33mTailored Resume Score Breakdown:[0m
+  (No breakdown available)
+
+[0;34mStep 7: Generating Cover Letter[0m
+This may take 20-40 seconds (AI processing)...
+[0;32m✓ Cover letter generated[0m
+Cover Letter ID: null
+
+[0;34mStep 8: Retrieving Full Documents[0m
+[0;32m✓ All documents retrieved[0m
+
+[0;34mStep 9: Generating Comparison Report[0m
+tmp/workflow-test.sh: line 301: N/A: division by 0 (error token is "A")

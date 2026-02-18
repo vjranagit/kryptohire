@@ -14,7 +14,6 @@ import type { ResumeScoreMetrics } from '@/lib/zod-schemas';
 import { generateObject } from 'ai';
 import { initializeAIClient } from '@/utils/ai-tools';
 import { simplifiedResumeSchema } from '@/lib/zod-schemas';
-import { getSubscriptionPlan } from '@/utils/actions/stripe/actions';
 
 // Schema for POST request body
 const optimizeResumeSchema = z.object({
@@ -172,6 +171,16 @@ export async function POST(req: NextRequest) {
     const target_score = validation.data.target_score ?? 85;
     const max_iterations = validation.data.max_iterations ?? 5;
 
+    // Get user's subscription info to pass to server actions (avoids cookies() call)
+    const { data: subscription } = await supabase
+      .from('subscriptions')
+      .select('subscription_plan, subscription_status, current_period_end, trial_end')
+      .eq('user_id', user.id)
+      .maybeSingle();
+
+    // Determine effective plan
+    const userPlan = subscription?.subscription_plan || 'free';
+
     // Get base resume directly from DB
     // SECURITY: Filter by user_id to prevent unauthorized access
     const { data: baseResume, error: resumeError } = await supabase
@@ -209,7 +218,13 @@ export async function POST(req: NextRequest) {
     // Step 1: Create initial tailored resume
     console.log('[OPTIMIZE] Step 1: Creating initial tailored resume...');
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const tailoredContent = await tailorResumeToJob(baseResume as Resume, job as any, config as any);
+    const tailoredContent = await tailorResumeToJob(
+      baseResume as Resume,
+      job as any,
+      config as any,
+      user.id,
+      userPlan
+    );
 
     // Create tailored resume directly in DB
     // SECURITY: user_id is explicitly set to authenticated user
@@ -258,7 +273,13 @@ export async function POST(req: NextRequest) {
       // Step 2a: Score current resume
       console.log(`[OPTIMIZE] Iteration ${iteration}: Scoring resume...`);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const scoreResult = await generateResumeScore(currentResume, job as any, config as any);
+      const scoreResult = await generateResumeScore(
+        currentResume,
+        job as any,
+        config as any,
+        user.id,
+        userPlan
+      );
       currentScore = scoreResult.overallScore.score;
 
       console.log(`[OPTIMIZE] Iteration ${iteration}: Score = ${currentScore}`);
@@ -285,8 +306,7 @@ export async function POST(req: NextRequest) {
 
       // Step 2d: Optimize resume content using AI
       console.log(`[OPTIMIZE] Iteration ${iteration}: Optimizing resume content...`);
-      const { plan } = await getSubscriptionPlan(true);
-      const isPro = plan === 'pro';
+      const isPro = userPlan === 'pro';
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const aiClient = isPro ? initializeAIClient(config as any, isPro) : initializeAIClient(config as any);
 
@@ -337,7 +357,13 @@ export async function POST(req: NextRequest) {
     // Step 3: Final scoring
     console.log('[OPTIMIZE] Performing final scoring...');
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const finalScore = await generateResumeScore(currentResume, job as any, config as any);
+    const finalScore = await generateResumeScore(
+      currentResume,
+      job as any,
+      config as any,
+      user.id,
+      userPlan
+    );
 
     console.log(`[OPTIMIZE] Optimization complete. Final score: ${finalScore.overallScore.score}`);
 

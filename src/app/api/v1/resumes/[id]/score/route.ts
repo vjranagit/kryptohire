@@ -1,6 +1,6 @@
 import { NextRequest } from 'next/server';
 import {
-  authenticateRequest,
+  getAuthenticatedServiceClient,
   apiResponse,
   validateRequest,
   hasValidationData,
@@ -29,8 +29,8 @@ export async function POST(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    // Authenticate request
-    const user = await authenticateRequest(req);
+    // Authenticate request and get service role client
+    const { user, supabase } = await getAuthenticatedServiceClient(req);
 
     const { id } = await params;
 
@@ -41,6 +41,16 @@ export async function POST(
     }
 
     const { config } = validation.data;
+
+    // Get user's subscription info to pass to server actions (avoids cookies() call)
+    const { data: subscription } = await supabase
+      .from('subscriptions')
+      .select('subscription_plan, subscription_status, current_period_end, trial_end')
+      .eq('user_id', user.id)
+      .maybeSingle();
+
+    // Determine effective plan
+    const userPlan = subscription?.subscription_plan || 'free';
 
     // Get resume with associated job if tailored
     const { resume, job } = await getResumeById(id);
@@ -58,7 +68,9 @@ export async function POST(
     const scoreResult = await generateResumeScore(
       resume,
       job as any, // eslint-disable-line @typescript-eslint/no-explicit-any
-      config as any // eslint-disable-line @typescript-eslint/no-explicit-any
+      config as any, // eslint-disable-line @typescript-eslint/no-explicit-any
+      user.id,
+      userPlan
     );
 
     return apiResponse(scoreResult);

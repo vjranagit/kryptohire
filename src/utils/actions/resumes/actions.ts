@@ -472,8 +472,8 @@ export async function generateResumeScore(
   if (userPlan) {
     isPro = userPlan === 'pro';
   } else {
-    const subscriptionPlan = await getSubscriptionPlan();
-    isPro = subscriptionPlan === 'pro';
+    const { plan } = await getSubscriptionPlan(true);
+    isPro = plan === 'pro';
   }
 
   const aiClient = isPro ? initializeAIClient(config, isPro) : initializeAIClient(config);

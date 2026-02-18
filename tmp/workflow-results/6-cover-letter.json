@@ -1,0 +1,1 @@
+{"error":{"message":"Validation failed","code":"VALIDATION_ERROR","statusCode":400,"details":{"issues":[{"path":"resume_id","message":"Invalid resume ID","code":"invalid_string"}]}}}
