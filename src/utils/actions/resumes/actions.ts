@@ -460,14 +460,22 @@ export async function countResumes(type: 'base' | 'tailored' | 'all'): Promise<n
 
 
 export async function generateResumeScore(
-  resume: Resume, 
+  resume: Resume,
   job?: ZodJob | null,
-  config?: AIConfig
+  config?: AIConfig,
+  userId?: string,
+  userPlan?: string
 ) {
-  
+  // Use provided params or fallback to cookies-based lookup
+  let isPro: boolean;
 
-  const subscriptionPlan = await getSubscriptionPlan();
-  const isPro = subscriptionPlan === 'pro';
+  if (userPlan) {
+    isPro = userPlan === 'pro';
+  } else {
+    const subscriptionPlan = await getSubscriptionPlan();
+    isPro = subscriptionPlan === 'pro';
+  }
+
   const aiClient = isPro ? initializeAIClient(config, isPro) : initializeAIClient(config);
 
   const isTailoredResume = job && !resume.is_base_resume;

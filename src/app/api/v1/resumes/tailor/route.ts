@@ -30,9 +30,11 @@ const tailorResumeSchema = z.object({
  * Create a tailored resume from a base resume for a specific job
  */
 export async function POST(req: NextRequest) {
+  console.log('[TAILOR API] Request received');
   try {
     // Authenticate request and get service role client
     const { user, supabase } = await getAuthenticatedServiceClient(req);
+    console.log('[TAILOR API] User authenticated:', user.id);
 
     // Validate request body
     const validation = await validateRequest(req, tailorResumeSchema);
@@ -41,6 +43,17 @@ export async function POST(req: NextRequest) {
     }
 
     const { base_resume_id, job_id, config, generate_score } = validation.data;
+
+    // Get user's subscription info to pass to server actions (avoids cookies() call)
+    const { data: subscription } = await supabase
+      .from('subscriptions')
+      .select('subscription_plan, subscription_status, current_period_end, trial_end')
+      .eq('user_id', user.id)
+      .maybeSingle();
+
+    // Determine effective plan
+    const userPlan = subscription?.subscription_plan || 'free';
+    console.log('[TAILOR API] User plan:', userPlan);
 
     // Get base resume directly from DB
     // SECURITY: Filter by user_id to prevent unauthorized access
@@ -75,12 +88,16 @@ export async function POST(req: NextRequest) {
       throw new NotFoundError('Job not found');
     }
 
-    // Tailor resume content using AI
+    console.log('[TAILOR API] Starting AI tailoring...');
+    // Tailor resume content using AI (pass userId and userPlan to avoid cookies() call)
     const tailoredContent = await tailorResumeToJob(
       baseResume as Resume,
       job as any, // eslint-disable-line @typescript-eslint/no-explicit-any
-      config as any // eslint-disable-line @typescript-eslint/no-explicit-any
+      config as any, // eslint-disable-line @typescript-eslint/no-explicit-any
+      user.id,
+      userPlan
     );
+    console.log('[TAILOR API] AI tailoring completed');
 
     // Quota check is bypassed as per the server action
     // await assertResumeQuota(supabase, user.id, 'tailored');
@@ -127,7 +144,9 @@ export async function POST(req: NextRequest) {
         score = await generateResumeScore(
           tailoredResume as Resume,
           job as any, // eslint-disable-line @typescript-eslint/no-explicit-any
-          config as any // eslint-disable-line @typescript-eslint/no-explicit-any
+          config as any, // eslint-disable-line @typescript-eslint/no-explicit-any
+          user.id,
+          userPlan
         );
       } catch (scoreError) {
         console.error('Failed to generate score for tailored resume:', scoreError);
@@ -143,6 +162,18 @@ export async function POST(req: NextRequest) {
       201
     );
   } catch (error) {
+    console.error('[TAILOR API] Error occurred:', error);
+    console.error('[TAILOR API] Error stack:', error instanceof Error ? error.stack : 'No stack');
+    console.error('[TAILOR API] Error details:', JSON.stringify(error, Object.getOwnPropertyNames(error)));
+
+    // Write error to file for debugging
+    try {
+      const fs = require('fs');
+      fs.appendFileSync('/app/tmp/tailor-errors.log', `\n[${new Date().toISOString()}] ${error instanceof Error ? error.message : 'Unknown error'}\n${error instanceof Error ? error.stack : ''}\n`);
+    } catch (fsError) {
+      console.error('Failed to write error log:', fsError);
+    }
+
     return handleAPIError(error);
   }
 }

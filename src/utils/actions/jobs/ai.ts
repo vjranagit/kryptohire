@@ -34,10 +34,23 @@ function getModelCandidates(config?: AIConfig) {
 export async function tailorResumeToJob(
   resume: Resume,
   jobListing: z.infer<typeof simplifiedJobSchema>,
-  config?: AIConfig
+  config?: AIConfig,
+  userId?: string,
+  userPlan?: string
 ) {
-  const { plan, id } = await getSubscriptionPlan(true);
-  const isPro = plan === 'pro';
+  // Use provided params or fallback to cookies-based lookup
+  let isPro: boolean;
+  let id: string;
+
+  if (userId && userPlan) {
+    isPro = userPlan === 'pro';
+    id = userId;
+  } else {
+    const { plan, id: fetchedId } = await getSubscriptionPlan(true);
+    isPro = plan === 'pro';
+    id = fetchedId;
+  }
+
   const overallStart = Date.now();
   const modelCandidates = getModelCandidates(config);
 
@@ -106,9 +119,25 @@ Your task: produce a polished, tailored resume that meets the schema exactly and
   throw lastError ?? new Error('Failed to tailor resume');
 }
 
-export async function formatJobListing(jobListing: string, config?: AIConfig) {
-  const { plan, id } = await getSubscriptionPlan(true);
-  const isPro = plan === 'pro';
+export async function formatJobListing(
+  jobListing: string,
+  config?: AIConfig,
+  userId?: string,
+  userPlan?: string
+) {
+  // Use provided params or fallback to cookies-based lookup
+  let isPro: boolean;
+  let id: string;
+
+  if (userId && userPlan) {
+    isPro = userPlan === 'pro';
+    id = userId;
+  } else {
+    const { plan, id: fetchedId } = await getSubscriptionPlan(true);
+    isPro = plan === 'pro';
+    id = fetchedId;
+  }
+
   const overallStart = Date.now();
   const modelCandidates = getModelCandidates(config);
 
