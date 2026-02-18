@@ -14,15 +14,27 @@ import { checkRateLimit } from '@/lib/rateLimiter';
 
 // Build model candidates list - prioritize user's selected model if provided
 function getModelCandidates(config?: AIConfig) {
-  // Free models first (no rate limit costs), then paid models as fallback
-  const fallbackModels: AIConfig[] = [
-    { model: 'openai/gpt-oss-120b:free', apiKeys: config?.apiKeys || [] },
-    { model: 'qwen/qwen3-coder:free', apiKeys: config?.apiKeys || [] },
-    { model: 'nvidia/nemotron-nano-9b-v2:free', apiKeys: config?.apiKeys || [] },
-    { model: 'z-ai/glm-4.5-air:free', apiKeys: config?.apiKeys || [] },
-    { model: 'openai/gpt-oss-20b:free', apiKeys: config?.apiKeys || [] },
-    { model: 'deepseek/deepseek-v3.2:nitro', apiKeys: config?.apiKeys || [] },
-  ];
+  // Check if using custom OpenAI proxy (e.g., local gpt-5-codex proxy)
+  const isCustomOpenAIProxy = process.env.OPENAI_BASE_URL &&
+    !process.env.OPENAI_BASE_URL.includes('api.openai.com');
+
+  // Use local proxy models if custom base URL is configured, otherwise use OpenRouter
+  const fallbackModels: AIConfig[] = isCustomOpenAIProxy
+    ? [
+        // Local proxy models (gpt-5-codex style)
+        { model: 'gpt-5-codex', apiKeys: config?.apiKeys || [] },
+        { model: 'gpt-5.2-codex', apiKeys: config?.apiKeys || [] },
+        { model: 'gpt-5.1-codex', apiKeys: config?.apiKeys || [] },
+      ]
+    : [
+        // OpenRouter free models
+        { model: 'openai/gpt-oss-120b:free', apiKeys: config?.apiKeys || [] },
+        { model: 'qwen/qwen3-coder:free', apiKeys: config?.apiKeys || [] },
+        { model: 'nvidia/nemotron-nano-9b-v2:free', apiKeys: config?.apiKeys || [] },
+        { model: 'z-ai/glm-4.5-air:free', apiKeys: config?.apiKeys || [] },
+        { model: 'openai/gpt-oss-20b:free', apiKeys: config?.apiKeys || [] },
+        { model: 'deepseek/deepseek-v3.2:nitro', apiKeys: config?.apiKeys || [] },
+      ];
 
   // If user has a model selected, try it first before fallbacks
   const modelCandidates: AIConfig[] = config?.model

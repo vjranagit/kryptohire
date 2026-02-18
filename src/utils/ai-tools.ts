@@ -94,8 +94,9 @@ export function initializeAIClient(config?: AIConfig, isPro?: boolean, useThinki
           })(resolvedModelId) as LanguageModelV1;
         }
         // Regular OpenAI models
-        return createOpenAI({ 
+        return createOpenAI({
           apiKey: envKey,
+          baseURL: process.env.OPENAI_BASE_URL,
           compatibility: 'strict'
         })(resolvedModelId) as LanguageModelV1;
       
@@ -116,7 +117,10 @@ export function initializeAIClient(config?: AIConfig, isPro?: boolean, useThinki
 
   // Existing logic for free users
   if (!config) {
-    return createOpenAI({ apiKey: '' })('no-model') as LanguageModelV1;
+    return createOpenAI({
+      apiKey: '',
+      baseURL: process.env.OPENAI_BASE_URL
+    })('no-model') as LanguageModelV1;
   }
 
   const { model, apiKeys } = config;
@@ -151,8 +155,9 @@ export function initializeAIClient(config?: AIConfig, isPro?: boolean, useThinki
     if (!envKey) throw new Error(`${provider.name} API key not found`);
     
     if (provider.id === 'openai') {
-      return createOpenAI({ 
+      return createOpenAI({
         apiKey: envKey,
+        baseURL: process.env.OPENAI_BASE_URL,
         compatibility: 'strict',
       })(resolvedModelId) as LanguageModelV1;
     }
@@ -187,8 +192,9 @@ export function initializeAIClient(config?: AIConfig, isPro?: boolean, useThinki
         })(resolvedModelId) as LanguageModelV1;
       }
       // Regular OpenAI models
-      return createOpenAI({ 
+      return createOpenAI({
         apiKey: userApiKey,
+        baseURL: process.env.OPENAI_BASE_URL,
         compatibility: 'strict'
       })(resolvedModelId) as LanguageModelV1;
     
