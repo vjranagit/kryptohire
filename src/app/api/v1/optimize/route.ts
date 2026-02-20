@@ -220,7 +220,9 @@ export async function POST(req: NextRequest) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const tailoredContent = await tailorResumeToJob(
       baseResume as Resume,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       job as any,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       config as any,
       user.id,
       userPlan
@@ -272,10 +274,11 @@ export async function POST(req: NextRequest) {
 
       // Step 2a: Score current resume
       console.log(`[OPTIMIZE] Iteration ${iteration}: Scoring resume...`);
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const scoreResult = await generateResumeScore(
         currentResume,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         job as any,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         config as any,
         user.id,
         userPlan
@@ -356,10 +359,11 @@ export async function POST(req: NextRequest) {
 
     // Step 3: Final scoring
     console.log('[OPTIMIZE] Performing final scoring...');
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const finalScore = await generateResumeScore(
       currentResume,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       job as any,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       config as any,
       user.id,
       userPlan

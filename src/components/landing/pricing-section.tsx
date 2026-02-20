@@ -70,7 +70,7 @@ export function PricingSection() {
               </span>
             </div>
             <p className="text-sm text-muted-foreground hover:text-violet-600 transition-colors duration-300">
-              ResumeLM is open source and free to use. Pro version with managed API keys coming soon!
+              Kryptohire is open source and free to use. Pro version with managed API keys coming soon!
             </p>
           </div>
         </div>

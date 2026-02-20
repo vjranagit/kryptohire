@@ -4,8 +4,8 @@ import { useSyncExternalStore, useCallback } from 'react'
 import type { ApiKey } from '@/lib/ai-models'
 
 // Storage keys - must match existing keys for backwards compatibility
-const API_KEYS_STORAGE_KEY = 'resumelm-api-keys'
-const MODEL_STORAGE_KEY = 'resumelm-default-model'
+const API_KEYS_STORAGE_KEY = 'kryptohire-api-keys'
+const MODEL_STORAGE_KEY = 'kryptohire-default-model'
 
 // Listener sets for each store
 const apiKeysListeners = new Set<() => void>()

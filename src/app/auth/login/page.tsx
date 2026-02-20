@@ -18,21 +18,21 @@ import { AuthDialogProvider } from "@/components/auth/auth-dialog-provider";
 // import { WaitlistSection } from "@/components/waitlist/waitlist-section";
 
 export const metadata: Metadata = {
-  title: "Login | ResumeLM - AI-Powered Resume Builder",
-  description: "Create tailored, ATS-optimized resumes powered by AI. ResumeLM helps you land your dream tech job with personalized resume optimization.",
+  title: "Login | Kryptohire - AI-Powered Resume Builder",
+  description: "Create tailored, ATS-optimized resumes powered by AI. Kryptohire helps you land your dream tech job with personalized resume optimization.",
   keywords: ["resume builder", "AI resume", "ATS optimization", "tech jobs", "career tools", "job application"],
-  authors: [{ name: "ResumeLM" }],
+  authors: [{ name: "Kryptohire" }],
   openGraph: {
-    title: "ResumeLM - AI-Powered Resume Builder",
+    title: "Kryptohire - AI-Powered Resume Builder",
     description: "Create tailored, ATS-optimized resumes powered by AI. Land your dream tech job with personalized resume optimization.",
-    url: "https://resumelm.com//",
-    siteName: "ResumeLM",
+    url: "https://kryptohire.com//",
+    siteName: "Kryptohire",
     images: [
       {
         url: "/og.webp",
         width: 1200,
         height: 630,
-        alt: "ResumeLM - AI Resume Builder",
+        alt: "Kryptohire - AI Resume Builder",
       },
     ],
     locale: "en_US",
@@ -40,10 +40,10 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "ResumeLM - AI-Powered Resume Builder",
+    title: "Kryptohire - AI-Powered Resume Builder",
     description: "Create tailored, ATS-optimized resumes powered by AI. Land your dream tech job with personalized resume optimization.",
     images: ["/og.webp"],
-    creator: "@resumelm",
+    creator: "@kryptohire",
   },
   robots: {
     index: true,
@@ -99,7 +99,7 @@ export default async function LoginPage({
                 <div className="space-y-8">
                   {/* GitHub Badge */}
                   <a
-                    href="https://github.com/olyaiy/resume-ai"
+                    href="https://github.com/vjranagit/kryptohire"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full 

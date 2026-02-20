@@ -95,7 +95,7 @@ interface ResumeScorePanelProps {
   job?: JobType | null;
 }
 
-const LOCAL_STORAGE_KEY = 'resumelm-resume-scores';
+const LOCAL_STORAGE_KEY = 'kryptohire-resume-scores';
 const MAX_SCORES = 10;
 
 interface StoredScoreEntry {

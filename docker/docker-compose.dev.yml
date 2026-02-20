@@ -1,4 +1,4 @@
-# ResumeLM Development Stack
+# Kryptohire Docker Stack
 # This docker-compose file provides a development environment
 # with different ports to avoid conflicts with production setup
 
@@ -10,7 +10,7 @@ services:
   # PostgreSQL Database
   db:
     image: supabase/postgres:15.14.1.066
-    container_name: resumelm-db-dev
+    container_name: kryptohire-db-dev
     healthcheck:
       test: pg_isready -U supabase_admin -h localhost
       interval: 5s
@@ -47,12 +47,12 @@ services:
       - db-data-dev:/var/lib/postgresql/data
       - ./supabase/volumes/db/init:/docker-entrypoint-initdb.d:ro
     networks:
-      - resumelm-network-dev
+      - kryptohire-network-dev
 
   # Supabase Studio (Dashboard)
   studio:
     image: supabase/studio:2025.12.17-sha-43f4f7f
-    container_name: resumelm-studio-dev
+    container_name: kryptohire-studio-dev
     restart: unless-stopped
     deploy:
       resources:
@@ -74,8 +74,8 @@ services:
     environment:
       STUDIO_PG_META_URL: http://meta:8080
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres-dev-password}
-      DEFAULT_ORGANIZATION_NAME: ResumeLM
-      DEFAULT_PROJECT_NAME: ResumeLM Dev
+      DEFAULT_ORGANIZATION_NAME: Kryptohire
+      DEFAULT_PROJECT_NAME: Kryptohire Dev
       SUPABASE_URL: http://kong:8000
       SUPABASE_PUBLIC_URL: http://localhost:54327
       SUPABASE_ANON_KEY: ${ANON_KEY:-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyAgCiAgICAicm9sZSI6ICJhbm9uIiwKICAgICJpc3MiOiAic3VwYWJhc2UtZGVtbyIsCiAgICAiaWF0IjogMTY0MTc2OTIwMCwKICAgICJleHAiOiAxNzk5NTM1NjAwCn0.dc_X5iR_VP_qT0zsiyj_I_OZ2T9FtRU2BBNWN8Bu4GE}
@@ -88,12 +88,12 @@ services:
     ports:
       - "54323:3000"
     networks:
-      - resumelm-network-dev
+      - kryptohire-network-dev
 
   # Kong API Gateway
   kong:
     image: kong:2.8.1
-    container_name: resumelm-kong-dev
+    container_name: kryptohire-kong-dev
     restart: unless-stopped
     deploy:
       resources:
@@ -129,12 +129,12 @@ services:
       timeout: 10s
       retries: 5
     networks:
-      - resumelm-network-dev
+      - kryptohire-network-dev
 
   # GoTrue Auth Service
   auth:
     image: supabase/gotrue:v2.184.0
-    container_name: resumelm-auth-dev
+    container_name: kryptohire-auth-dev
     deploy:
       resources:
         limits:
@@ -169,12 +169,12 @@ services:
       GOTRUE_EXTERNAL_EMAIL_ENABLED: "true"
       GOTRUE_EXTERNAL_ANONYMOUS_USERS_ENABLED: "false"
       GOTRUE_MAILER_AUTOCONFIRM: "true"
-      GOTRUE_SMTP_ADMIN_EMAIL: admin@resumelm.local
+      GOTRUE_SMTP_ADMIN_EMAIL: admin@kryptohire.local
       GOTRUE_SMTP_HOST: inbucket
       GOTRUE_SMTP_PORT: 2500
-      GOTRUE_SMTP_USER: admin@resumelm.local
+      GOTRUE_SMTP_USER: admin@kryptohire.local
       GOTRUE_SMTP_PASS: password
-      GOTRUE_SMTP_SENDER_NAME: ResumeLM
+      GOTRUE_SMTP_SENDER_NAME: Kryptohire
       GOTRUE_MAILER_URLPATHS_INVITE: /auth/v1/verify
       GOTRUE_MAILER_URLPATHS_CONFIRMATION: /auth/v1/verify
       GOTRUE_MAILER_URLPATHS_RECOVERY: /auth/v1/verify
@@ -183,12 +183,12 @@ services:
       GOTRUE_SMS_AUTOCONFIRM: "true"
       GOTRUE_RATE_LIMIT_HEADER: X-Forwarded-For
     networks:
-      - resumelm-network-dev
+      - kryptohire-network-dev
 
   # PostgREST API
   rest:
     image: postgrest/postgrest:v14.1
-    container_name: resumelm-rest-dev
+    container_name: kryptohire-rest-dev
     deploy:
       resources:
         limits:
@@ -211,12 +211,12 @@ services:
       PGRST_APP_SETTINGS_JWT_EXP: 3600
     command: "postgrest"
     networks:
-      - resumelm-network-dev
+      - kryptohire-network-dev
 
   # Realtime Server
   realtime:
     image: supabase/realtime:v2.68.0
-    container_name: resumelm-realtime-dev
+    container_name: kryptohire-realtime-dev
     deploy:
       resources:
         limits:
@@ -259,12 +259,12 @@ services:
     command: >
       sh -c "/app/bin/migrate && /app/bin/realtime eval 'Realtime.Release.seeds(Realtime.Repo)' && /app/bin/server"
     networks:
-      - resumelm-network-dev
+      - kryptohire-network-dev
 
   # Storage API
   storage:
     image: supabase/storage-api:v1.33.0
-    container_name: resumelm-storage-dev
+    container_name: kryptohire-storage-dev
     deploy:
       resources:
         limits:
@@ -302,12 +302,12 @@ services:
     volumes:
       - storage-data-dev:/var/lib/storage
     networks:
-      - resumelm-network-dev
+      - kryptohire-network-dev
 
   # Image Proxy for Storage
   imgproxy:
     image: darthsim/imgproxy:v3.8.0
-    container_name: resumelm-imgproxy-dev
+    container_name: kryptohire-imgproxy-dev
     deploy:
       resources:
         limits:
@@ -329,12 +329,12 @@ services:
     volumes:
       - storage-data-dev:/var/lib/storage:ro
     networks:
-      - resumelm-network-dev
+      - kryptohire-network-dev
 
   # Meta service for Studio
   meta:
     image: supabase/postgres-meta:v0.95.1
-    container_name: resumelm-meta-dev
+    container_name: kryptohire-meta-dev
     deploy:
       resources:
         limits:
@@ -355,12 +355,12 @@ services:
       PG_META_DB_USER: supabase_admin
       PG_META_DB_PASSWORD: ${POSTGRES_PASSWORD:-postgres-dev-password}
     networks:
-      - resumelm-network-dev
+      - kryptohire-network-dev
 
   # Inbucket (local email testing)
   inbucket:
     image: inbucket/inbucket:3.1.1
-    container_name: resumelm-inbucket-dev
+    container_name: kryptohire-inbucket-dev
     deploy:
       resources:
         limits:
@@ -374,12 +374,12 @@ services:
       - "54329:9000"   # Web UI
       - "54330:2500"   # SMTP
     networks:
-      - resumelm-network-dev
+      - kryptohire-network-dev
 
   # Analytics (Logflare for logging)
   analytics:
     image: supabase/logflare:1.27.0
-    container_name: resumelm-analytics-dev
+    container_name: kryptohire-analytics-dev
     deploy:
       resources:
         limits:
@@ -412,14 +412,14 @@ services:
       POSTGRES_BACKEND_SCHEMA: _analytics
       LOGFLARE_FEATURE_FLAG_OVERRIDE: multibackend=true
     networks:
-      - resumelm-network-dev
+      - kryptohire-network-dev
 
   # ============================================
   # Redis for Rate Limiting & Caching
   # ============================================
   redis:
     image: redis:7-alpine
-    container_name: resumelm-redis-dev
+    container_name: kryptohire-redis-dev
     restart: unless-stopped
     deploy:
       resources:
@@ -440,12 +440,12 @@ services:
       timeout: 5s
       retries: 5
     networks:
-      - resumelm-network-dev
+      - kryptohire-network-dev
 
   # Redis Commander (optional web UI for Redis)
   redis-commander:
     image: rediscommander/redis-commander:latest
-    container_name: resumelm-redis-commander-dev
+    container_name: kryptohire-redis-commander-dev
     restart: unless-stopped
     deploy:
       resources:
@@ -469,7 +469,7 @@ services:
     ports:
       - "9082:8081"
     networks:
-      - resumelm-network-dev
+      - kryptohire-network-dev
 
   # ============================================
   # Next.js Application
@@ -480,7 +480,7 @@ services:
       context: ..
       dockerfile: docker/Dockerfile
       target: development
-    container_name: resumelm-app-dev
+    container_name: kryptohire-app-dev
     restart: unless-stopped
     deploy:
       resources:
@@ -503,14 +503,14 @@ services:
       - ../src:/app/src
     environment:
       - NODE_ENV=development
-      # Base path for serving the app at a subpath (e.g., /resumelm)
+      # Base path for serving the app at a subpath (e.g., /kryptohire)
       - NEXT_PUBLIC_BASE_PATH=${NEXT_PUBLIC_BASE_PATH:-}
       # Supabase config (defaults for Docker, overridable)
       # Client-side URLs (from host)
       - NEXT_PUBLIC_SUPABASE_URL=${NEXT_PUBLIC_SUPABASE_URL:-http://host.docker.internal:54327}
       - NEXT_PUBLIC_SUPABASE_ANON_KEY=${ANON_KEY:-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyAgCiAgICAicm9sZSI6ICJhbm9uIiwKICAgICJpc3MiOiAic3VwYWJhc2UtZGVtbyIsCiAgICAiaWF0IjogMTY0MTc2OTIwMCwKICAgICJleHAiOiAxNzk5NTM1NjAwCn0.dc_X5iR_VP_qT0zsiyj_I_OZ2T9FtRU2BBNWN8Bu4GE}
       # Server-side URLs (internal container network)
-      - SUPABASE_URL=${SUPABASE_URL:-http://resumelm-kong-dev:8000}
+      - SUPABASE_URL=${SUPABASE_URL:-http://kryptohire-kong-dev:8000}
       - SUPABASE_ANON_KEY=${SUPABASE_ANON_KEY:-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyAgCiAgICAicm9sZSI6ICJhbm9uIiwKICAgICJpc3MiOiAic3VwYWJhc2UtZGVtbyIsCiAgICAiaWF0IjogMTY0MTc2OTIwMCwKICAgICJleHAiOiAxNzk5NTM1NjAwCn0.dc_X5iR_VP_qT0zsiyj_I_OZ2T9FtRU2BBNWN8Bu4GE}
       - SUPABASE_SERVICE_ROLE_KEY=${SERVICE_ROLE_KEY:-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyAgCiAgICAicm9sZSI6ICJzZXJ2aWNlX3JvbGUiLAogICAgImlzcyI6ICJzdXBhYmFzZS1kZW1vIiwKICAgICJpYXQiOiAxNjQxNzY5MjAwLAogICAgImV4cCI6IDE3OTk1MzU2MDAKfQ.DaYlNEoUrrEn2Ig7tqibS-PHK5vgusbcbo7X36XVt4Q}
       - NEXT_PUBLIC_SITE_URL=${NEXT_PUBLIC_SITE_URL:-http://localhost:3021}
@@ -531,14 +531,14 @@ services:
       # Dev convenience (configurable with defaults)
       - AUTO_PRO_SUBSCRIPTION=${AUTO_PRO_SUBSCRIPTION:-true}
     networks:
-      - resumelm-network-dev
+      - kryptohire-network-dev
 
   # ============================================
   # Database Seeder (runs once on startup)
   # ============================================
   seeder:
     image: curlimages/curl:latest
-    container_name: resumelm-seeder-dev
+    container_name: kryptohire-seeder-dev
     depends_on:
       auth:
         condition: service_healthy
@@ -556,7 +556,7 @@ services:
       - AUTO_PRO_SUBSCRIPTION=${AUTO_PRO_SUBSCRIPTION:-true}
     entrypoint: ["/bin/sh", "/seed-admin.sh"]
     networks:
-      - resumelm-network-dev
+      - kryptohire-network-dev
     restart: "no"
 
 volumes:
@@ -565,5 +565,5 @@ volumes:
   redis-data-dev:
 
 networks:
-  resumelm-network-dev:
+  kryptohire-network-dev:
     driver: bridge

@@ -62,9 +62,9 @@ export function ErrorDialog({ isOpen: initialIsOpen }: ErrorDialogProps) {
                 Try Logging In Again
               </Button>
             </Link>
-            <Link href="https://x.com/alexfromvan" target="_blank" rel="noopener noreferrer">
-              <Button 
-                variant="outline" 
+            <Link href="mailto:support@kryptohire.com" target="_blank" rel="noopener noreferrer">
+              <Button
+                variant="outline"
                 className="w-full"
               >
                 Contact Support

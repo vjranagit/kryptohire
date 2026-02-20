@@ -21,16 +21,16 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
   const post = getPostBySlug(slug);
   if (!post) return {};
   
-  const url = `https://resumelm.com/blog/${slug}`;
+  const url = `https://kryptohire.com/blog/${slug}`;
   const publishedTime = new Date(post.frontMatter.date).toISOString();
   
   return {
     title: post.frontMatter.title,
     description: post.frontMatter.description,
     keywords: ['resume builder', 'tech jobs', 'Vancouver tech', 'career advice', 'AI resume', 'job search'],
-    authors: [{ name: 'ResumeLM Team' }],
-    creator: 'ResumeLM',
-    publisher: 'ResumeLM',
+    authors: [{ name: 'Kryptohire Team' }],
+    creator: 'Kryptohire',
+    publisher: 'Kryptohire',
     category: 'Career Advice',
     alternates: {
       canonical: url,
@@ -39,10 +39,10 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
       title: post.frontMatter.title,
       description: post.frontMatter.description,
       url: url,
-      siteName: 'ResumeLM',
+      siteName: 'Kryptohire',
       type: 'article',
       publishedTime: publishedTime,
-      authors: ['ResumeLM Team'],
+      authors: ['Kryptohire Team'],
       images: [
         {
           url: '/og.webp',
@@ -57,8 +57,8 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
       title: post.frontMatter.title,
       description: post.frontMatter.description,
       images: ['/og.webp'],
-      creator: '@resumelm',
-      site: '@resumelm',
+      creator: '@kryptohire',
+      site: '@kryptohire',
     },
     robots: {
       index: true,
@@ -96,26 +96,26 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     '@type': 'Article',
     headline: post.frontMatter.title,
     description: post.frontMatter.description,
-    image: 'https://resumelm.com/og.webp',
+    image: 'https://kryptohire.com/og.webp',
     datePublished: new Date(post.frontMatter.date).toISOString(),
     dateModified: new Date(post.frontMatter.date).toISOString(),
     author: {
       '@type': 'Organization',
-      name: 'ResumeLM Team',
-      url: 'https://resumelm.com',
+      name: 'Kryptohire Team',
+      url: 'https://kryptohire.com',
     },
     publisher: {
       '@type': 'Organization',
-      name: 'ResumeLM',
+      name: 'Kryptohire',
       logo: {
         '@type': 'ImageObject',
-        url: 'https://resumelm.com/og.webp',
+        url: 'https://kryptohire.com/og.webp',
       },
-      url: 'https://resumelm.com',
+      url: 'https://kryptohire.com',
     },
     mainEntityOfPage: {
       '@type': 'WebPage',
-      '@id': `https://resumelm.com/blog/${slug}`,
+      '@id': `https://kryptohire.com/blog/${slug}`,
     },
     articleSection: 'Career Advice',
     keywords: 'resume builder, tech jobs, Vancouver tech, career advice, AI resume, job search',
@@ -222,7 +222,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                 Ready to build your perfect resume?
               </h3>
               <p className="text-gray-600 mb-6 max-w-md mx-auto">
-                Join thousands of professionals who have already transformed their careers with ResumeLM.
+                Join thousands of professionals who have already transformed their careers with Kryptohire.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link

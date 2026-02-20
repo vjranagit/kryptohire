@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 
 /**
  * GET /api/v1/docs
- * Returns OpenAPI 3.0 specification for the ResumeLM API
+ * Returns OpenAPI 3.0 specification for the Kryptohire API
  */
 export async function GET() {
   const baseURL = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3021';
@@ -10,12 +10,12 @@ export async function GET() {
   const openAPISpec = {
     openapi: '3.0.0',
     info: {
-      title: 'ResumeLM API',
+      title: 'Kryptohire API',
       version: '1.0.0',
       description: 'AI-powered resume builder and optimization platform API',
       contact: {
-        name: 'ResumeLM Support',
-        email: 'support@resumelm.com',
+        name: 'Kryptohire Support',
+        email: 'support@kryptohire.com',
       },
       license: {
         name: 'MIT',
